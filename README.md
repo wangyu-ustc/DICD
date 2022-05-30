@@ -25,7 +25,11 @@ python nonlinear_exp.py --s0 40 --d 10 --method NOTEARS --graph_type SF
 python nonlinear_exp.py --s0 40 --d 10 --method DICD --graph_type SF
 ```
 
-For the other baselines, the scripts are as follows:
+For DAG-GNN and DAG-NoCurl, We follow the official implementations of all these methods with the link provided as follows:
++ DAG-GNN: https://github.com/fishmoon1234/DAG-GNN
++ DAG-NoCurl: https://github.com/fishmoon1234/DAG-NoCurl
+
+the scripts are as follows:
 ```
 python linear_exp.py --s0 40 --d 10 --method DAG-GNN --graph_type ER
 python linear_exp.py --s0 40 --d 10 --method NoCurl --graph_type ER
@@ -34,6 +38,7 @@ python non_linear_exp.py --s0 40 --d 10 --method DAG-GNN --graph_type ER
 python non_linear_exp.py --s0 40 --d 10 --method NoCurl --graph_type ER
 python non_linear_exp.py --s0 40 --d 10 --method DARING --graph_type ER
 ```
+
 
 
 
