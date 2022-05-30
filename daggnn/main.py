@@ -371,39 +371,9 @@ def get_result(X, B_true):
             print("Best Epoch: {:04d}".format(best_epoch))
             # log.flush()
             sys.stdout.flush()
-        # test()
-        # print(best_ELBO_graph)
-        # print(nx.to_numpy_array(ground_truth_G))
-        # fdr, tpr, fpr, shd, nnz = count_accuracy(ground_truth_G, nx.DiGraph(best_ELBO_graph))
-        # print('Best ELBO Graph Accuracy: fdr', fdr, ' tpr ', tpr, ' fpr ', fpr, 'shd', shd, 'nnz', nnz)
-        #
-        # print(best_NLL_graph)
-        # print(nx.to_numpy_array(ground_truth_G))
-        # fdr, tpr, fpr, shd, nnz = count_accuracy(ground_truth_G, nx.DiGraph(best_NLL_graph))
-        # print('Best NLL Graph Accuracy: fdr', fdr, ' tpr ', tpr, ' fpr ', fpr, 'shd', shd, 'nnz', nnz)
-        #
-        # print(best_MSE_graph)
-        # print(nx.to_numpy_array(ground_truth_G))
-        # fdr, tpr, fpr, shd, nnz = count_accuracy(ground_truth_G, nx.DiGraph(best_MSE_graph))
-        # print('Best MSE Graph Accuracy: fdr', fdr, ' tpr ', tpr, ' fpr ', fpr, 'shd', shd, 'nnz', nnz)
 
         graph = origin_A.data.clone().numpy()
-        # graph[np.abs(graph) < 0.1] = 0
-        # # print(graph)
-        # fdr, tpr, fpr, shd, nnz = count_accuracy(ground_truth_G, nx.DiGraph(graph))
-        # print('threshold 0.1, Accuracy: fdr', fdr, ' tpr ', tpr, ' fpr ', fpr, 'shd', shd, 'nnz', nnz)
-        #
-        # graph[np.abs(graph) < 0.2] = 0
-        # # print(graph)
-        # fdr, tpr, fpr, shd, nnz = count_accuracy(ground_truth_G, nx.DiGraph(graph))
-        # print('threshold 0.2, Accuracy: fdr', fdr, ' tpr ', tpr, ' fpr ', fpr, 'shd', shd, 'nnz', nnz)
-
         graph[np.abs(graph) < 0.3] = 0
-        # print(graph)
-        # fdr, tpr, fpr, shd, nnz = count_accuracy(ground_truth_G, nx.DiGraph(graph))
-        # print('threshold 0.3, Accuracy: fdr', fdr, ' tpr ', tpr, ' fpr ', fpr, 'shd', shd, 'nnz', nnz)
-        # return {"fdr": fdr, "tpr": tpr, "fpr": fpr, "shd": shd, "nnz": nnz}
-
 
     except KeyboardInterrupt:
         # print the best anway
@@ -427,14 +397,4 @@ def get_result(X, B_true):
         fdr, tpr, fpr, shd, nnz = count_accuracy(ground_truth_G, nx.DiGraph(graph))
         print('threshold 0.3, Accuracy: fdr', fdr, ' tpr ', tpr, ' fpr ', fpr, 'shd', shd, 'nnz', nnz)
 
-    # f = open('trueG', 'w')
-    # matG = np.matrix(nx.to_numpy_array(ground_truth_G))
-    # for line in matG:
-    #     np.savetxt(f, line, fmt='%.5f')
-    # f.close()
-
-    # f1 = open('predG', 'w')
-    # matG1 = np.matrix(origin_A.data.clone().numpy())
-    # for line in matG1:
-    #     np.savetxt(f1, line, fmt='%.5f')
     return graph

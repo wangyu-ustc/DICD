@@ -703,22 +703,6 @@ def compute_local_BiCScore(np_data, target, parents):
     if len(parents) < 1:
         a = 1
 
-    # unique_rows = np.unique(self.np_data, axis=0)
-    # for data_ind in range(unique_rows.shape[0]):
-    #     parent_combination = tuple(unique_rows[data_ind,:].reshape(1,-1)[0])
-    #     count_d[parent_combination] = dict()
-    #
-    #     # build children
-    #     self_value = tuple(self.np_data[data_ind, target].reshape(1,-1)[0])
-    #     if parent_combination in count_d:
-    #         if self_value in count_d[parent_combination]:
-    #             count_d[parent_combination][self_value] += 1.0
-    #         else:
-    #             count_d[parent_combination][self_value] = 1.0
-    #     else:
-    #         count_d[parent_combination] = dict()
-    #         count_d
-
     # slower implementation
     for data_ind in range(sample_size):
         parent_combination = tuple(np_data[data_ind, parents].reshape(1, -1)[0])

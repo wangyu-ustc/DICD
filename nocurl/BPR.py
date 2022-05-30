@@ -6,19 +6,10 @@ Tian Gao, 3/6/2020
 
 
 import numpy as np
-from scipy.linalg import expm
-import nocurl.utils
-import networkx as nx
-from nocurl.utils import setup_logger
-from tqdm import tqdm
-
-from scipy import linalg
-
-import pandas as pd
-import scipy.linalg as slin
 import scipy.optimize as sopt
+from scipy import linalg
 from scipy.special import expit as sigmoid
-import networkx as nx
+
 
 class BPR:
     def __init__(self, args):
@@ -31,88 +22,10 @@ class BPR:
         self.threshold_A = args.graph_threshold
         self.loss_type = 'l2'
 
-    def fit(self, X, method = 'nocurl'):
+    def fit(self, X):
 
-        if method == 'notear':
-            # --original version of notear
-            return self.fit_all(X)
+        return self.fit_all_L2proj(X)
 
-        elif method == 'nocurl':
-            return self.fit_all_L2proj(X)
-
-        elif method =='CAM':
-            return self.fit_cam(X)
-
-        elif method =='GES':
-            return self.fit_ges(X)
-
-        elif method == 'MMPC':
-            return self.fit_mmpc(X)
-
-        elif method =='FGS':
-            return self.fit_fgs(X)
-
-        else:
-            print('method is not support')
-
-    def fit_fgs(self, X):
-        '''FGS version'''
-
-        '''FGS version'''
-        from nocurl.fges_continuous_yyu import fit_FGS
-
-        d = X.shape[1]
-        trueG = nx.to_numpy_array(self.ground_truth_G)
-        A = fit_FGS(X, trueG, d, self.pc)
-
-        lossA = self._loss_L2(A, X, loss_type = 'l2')
-
-        return A, [-1], [], [lossA[0]]
-
-
-    def fit_cam(self, X):
-        import cdt
-        model = cdt.causality.graph.CAM(score='nonlinear', cutoff=0.001,
-                                        variablesel=True, selmethod='gamboost',
-                                        pruning=True, prunmethod='gam',
-                                        njobs=None, verbose=None)  # causal additive model: Guasisan process + additive noise
-        # model = cdt.causality.graph.LiNGAM()  # Linear Non-Gaussian Acyclic model + addtive noise
-        #
-
-        data_frame = pd.DataFrame(X)
-        output_graph_nc = model.predict(data_frame)
-        A = nx.adjacency_matrix(output_graph_nc).todense()
-
-        A = np.asarray(A).astype(np.float64)
-
-        lossA = self._loss_L2(A, X, loss_type='l2')
-
-        return A, [-1], [],[lossA[0]]
-
-    def fit_mmpc(self, X):
-        import cdt
-        model = cdt.causality.graph.bnlearn.MMPC()
-
-        data_frame = pd.DataFrame(X)
-        output_graph_nc = model.predict(data_frame)
-        A = nx.adjacency_matrix(output_graph_nc).todense()
-        A = np.asarray(A).astype(np.float64)
-
-        lossA = self._loss_L2(A, X, loss_type='l2')
-
-        return A, [-1], [], [lossA[0]]
-
-    def fit_ges(self, X):
-        import cdt
-        model = cdt.causality.graph.GES()
-        data_frame = pd.DataFrame(X)
-        output_graph_nc = model.predict(data_frame)
-        A = nx.adjacency_matrix(output_graph_nc).todense()
-        A = np.asarray(A).astype(np.float64)
-
-        lossA = self._loss_L2(A, X, loss_type='l2')
-
-        return A, [-1], [], [lossA[0]]
 
 
     def fit_aug_lagr_AL2proj(self, X, hTol, lambda1, lambda2, threshold):

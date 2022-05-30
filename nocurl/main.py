@@ -8,22 +8,10 @@ Main function for traininng DAG NoCurl
 from __future__ import division
 from __future__ import print_function
 
-import time
 import argparse
-import pickle
-import os
-from tqdm import tqdm
 from collections import namedtuple
-import os.path
 
-import math
-import scipy.linalg as slin
-import numpy as np
-import networkx as nx
-
-import nocurl.utils as utils
 import nocurl.BPR
-
 
 
 def get_args():
@@ -93,7 +81,6 @@ def get_result(X, B):
         "repeat": 100,
         "data_sample_size": X.shape[0],
         "degree": X.shape[1],
-        "methods": 'notear',
         'graph_threshold': 0.3,
         'lambda1': 10.0,
         'lambda2': 10.0,
@@ -117,13 +104,8 @@ def main(args, X, G):
     if X.ndim > 2: # args.graph_linear_type !='linear':
         X = X[:, :, 0]
 
-    methods = args.methods
-
-    # for method in methods:
-    method = methods
-    t =  time.time()
     bpr = nocurl.BPR.BPR(args)
 
-    A, h, alpha, rho = bpr.fit(X, method)
+    A, h, alpha, rho = bpr.fit(X)
 
     return A

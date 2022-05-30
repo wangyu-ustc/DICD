@@ -43,32 +43,10 @@ def _h_A(A):
 def _D_lin(W, X):
     dummy_w = nn.Parameter(torch.ones(W.shape)).to(X.device)
     l = _loss(X, W*dummy_w)
-    # h_A = _h_A(W*dummy_w)
-    # l += args.lambda1 * h_A + 0.5 * c_A * h_A * h_A + 100. * torch.trace(W_est * W_est)
     g = torch.autograd.grad(l, dummy_w, create_graph=True)[0]
-    # return (g**2).sum()
-    # g[torch.where(g < 0.1)] = 0
     return torch.norm(g)
 
 def load_linear_graph(args):
-    # print("number of points:", n)
-    # print("noises:", noises)
-    # print("graph type:", graph_type)
-    # num_string = "_".join([str(i) for i in n])
-    # if not os.path.exists(
-    #         f'data/W_true_{num_string}_{args.d}_{args.s0}_{args.graph_type}_{args.sem_type}_{args.seed}.csv'):
-    #     print("generating new graph....")
-    #     B_true = simulate_dag(args.d, args.s0, args.graph_type)
-    #     W_true = simulate_parameter(B_true)
-    #     np.savetxt(f'data/W_true_{num_string}_{args.d}_{args.s0}_{args.graph_type}_{args.sem_type}_{args.seed}.csv',
-    #                W_true,
-    #                delimiter=',')
-    # else:
-    #     print("loading existing graph...")
-    #     W_true = np.loadtxt(
-    #         f'data/W_true_{num_string}_{args.d}_{args.s0}_{args.graph_type}_{args.sem_type}_{args.seed}.csv',
-    #         delimiter=',')
-    # return W_true
     W_true = np.loadtxt(f"{args.data_dir}/linear_{args.d}_{args.graph_type}{args.s0 // args.d}/W_true.csv", delimiter=',')
     return W_true
 
@@ -98,29 +76,6 @@ def load_nonlinear_data(args, ratio=None, group_num=None):
         X = np.load(f"{args.data_dir}/nonlinear_{args.d}_{args.graph_type}{args.s0//args.d}_{args.sem_type}/data_{args.seed}.npy", allow_pickle=True)
 
     return X
-    # num_string = "_".join([str(i) for i in n])
-    # if not os.path.exists(
-    #         f'data/W_true_{num_string}_{args.d}_{args.s0}_{args.graph_type}_{args.sem_type}_{args.seed}_nonlinear_{sem_type}.npy'):
-    #     print("generating new datasets...")
-    #     X = []
-    #     selected_idxes = np.random.choice(np.arange(args.d), size=int(args.d * 0.3))
-    #
-    #     for i in range(args.group_num):
-    #         noises_list = np.ones(args.d)
-    #         noises_list[selected_idxes] = noises[i]
-    #         X.append(simulate_nonlinear_sem(B_true, n[i], sem_type, noise_scale=noises_list))
-    #     X = np.array(X)
-    #     np.save(
-    #         f'data/W_true_{num_string}_{args.d}_{args.s0}_{args.graph_type}_{args.sem_type}_{args.seed}_nonlinear_{sem_type}.npy',
-    #         X)
-    # else:
-    #     print("loading existing datasets...")
-    #     X = np.load(
-    #         f'data/W_true_{num_string}_{args.d}_{args.s0}_{args.graph_type}_{args.sem_type}_{args.seed}_nonlinear_{sem_type}.npy',
-    #         allow_pickle=True)
-    # return X
-
-
 
 
 def set_random_seed(seed):

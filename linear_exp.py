@@ -17,7 +17,7 @@ parser.add_argument("--lambda_D", default=1, type=float)
 parser.add_argument("--beta", default=1000, type=int)
 parser.add_argument("--group_num", default=5, type=int)
 parser.add_argument("--seed", default=1, type=int)
-parser.add_argument("--method", default="NOTEARS")
+parser.add_argument("--method", default="NoCurl")
 parser.add_argument("--n_attributes", default=5, type=int)
 parser.add_argument("--noise_variance_type", default=1, type=int)
 parser.add_argument("--loss_type", default='l2')
@@ -84,7 +84,6 @@ def optimization_step(W_est, data_loaders, lambda1, lambda2, lambda_D, rho, alph
             rho *= 10
         else:
             break
-
 
     print("lambda_D:", lam_D)
 
