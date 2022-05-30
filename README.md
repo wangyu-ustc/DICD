@@ -25,7 +25,7 @@ python nonlinear_exp.py --s0 40 --d 10 --method NOTEARS --graph_type SF
 python nonlinear_exp.py --s0 40 --d 10 --method DICD --graph_type SF
 ```
 
-For DAG-GNN and DAG-NoCurl, We follow the official implementations of all these methods with the link provided as follows:
+For DAG-GNN and DAG-NoCurl, We follow the official implementations with the link provided as follows:
 + DAG-GNN: https://github.com/fishmoon1234/DAG-GNN
 + DAG-NoCurl: https://github.com/fishmoon1234/DAG-NoCurl
 
